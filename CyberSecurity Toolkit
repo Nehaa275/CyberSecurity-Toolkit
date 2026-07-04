@@ -1,0 +1,124 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <cctype>
+using namespace std;
+void passwordStrength() {
+    string pass;
+    cout << "Enter Password: ";
+    cin >> pass;
+    bool upper = false, lower = false, digit = false, special = false;
+    for (char c : pass) {
+        if (isupper(c))
+            upper = true;
+        else if (islower(c))
+            lower = true;
+        else if (isdigit(c))
+            digit = true;
+        else
+            special = true;
+    }
+    int score = upper + lower + digit + special;
+    cout << "\nPassword Analysis:\n";
+    cout << "Length: " << pass.length() << endl;
+    if (pass.length() >= 8 && score == 4)
+        cout << "Strength: Strong\n";
+    else if (pass.length() >= 6 && score >= 3)
+        cout << "Strength: Medium\n";
+    else
+        cout << "Strength: Weak\n";
+}
+void encrypt() {
+    string text;
+    int key;
+    cin.ignore();
+    cout << "Enter Text: ";
+    getline(cin, text);
+    cout << "Enter Key: ";
+    cin >> key;
+    for (char &c : text) {
+        if (isalpha(c)) {
+            char base = isupper(c) ? 'A' : 'a';
+            c = (c - base + key) % 26 + base;
+        }
+    }
+    cout << "Encrypted Text: " << text << endl;
+}
+void decrypt() {
+    string text;
+    int key;
+    cin.ignore();
+    cout << "Enter Encrypted Text: ";
+    getline(cin, text);
+    cout << "Enter Key: ";
+    cin >> key;
+    for (char &c : text) {
+        if (isalpha(c)) {
+            char base = isupper(c) ? 'A' : 'a';
+            c = (c - base - key + 26) % 26 + base;
+        }
+    }
+    cout << "Decrypted Text: " << text << endl;
+}
+void hashGenerator() {
+    string text;
+    cin.ignore();
+
+    cout << "Enter Text: ";
+    getline(cin, text);
+
+    hash<string> hasher;
+    size_t value = hasher(text);
+
+    cout << "Hash Value: " << value << endl;
+}
+void generatePassword() {
+    int length;
+    cout << "Enter Password Length: ";
+    cin >> length;
+    string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    srand(time(0));
+    cout << "Generated Password: ";
+    for (int i = 0; i < length; i++)
+        cout << chars[rand() % chars.length()];
+    cout << endl;
+}
+int main() {
+    int choice;
+    do {
+        cout << "\n===== CYBERSECURITY TOOLKIT =====\n";
+        cout << "1. Password Strength Checker\n";
+        cout << "2. Encrypt Text (Caesar Cipher)\n";
+        cout << "3. Decrypt Text (Caesar Cipher)\n";
+        cout << "4. Hash Generator\n";
+        cout << "5. Random Password Generator\n";
+        cout << "6. Exit\n";
+        cout << "Enter Choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                passwordStrength();
+                break;
+            case 2:
+                encrypt();
+                break;
+            case 3:
+                decrypt();
+                break;
+            case 4:
+                hashGenerator();
+                break;
+            case 5:
+                generatePassword();
+                break;
+            case 6:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid Choice!\n";
+        }
+    } 
+    while (choice != 6);
+    return 0;
+}
