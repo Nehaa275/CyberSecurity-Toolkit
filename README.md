@@ -30,7 +30,7 @@ Using g++:
 
 g++ cybersecurity_toolkit.cpp -o toolkit
 
-**How to Run
+**How to Run**
 
 Windows:
 
